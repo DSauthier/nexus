@@ -6,7 +6,7 @@ import ContactList from './ContactList';
 import Layout from './Layout';
 import StatusBar from './StatusBar';
 
-import Contacts from '../services/contacts';
+// import Contacts from '../services/contacts';
 
 class AddressBook extends Layout {
   static propTypes = {
@@ -14,15 +14,10 @@ class AddressBook extends Layout {
     className: PropTypes.string,
   };
 
-  state = { contacts: [] };
-
-  async componentDidMount() {
-    this.setState({ contacts: await Contacts.read() });
-  }
-
   render() {
+    //  console.log(this)
     const { className } = this.props;
-    const { contacts } = this.state;
+    const { contacts } = this.props;
 
     const element = super.render();
 

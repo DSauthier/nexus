@@ -1,53 +1,190 @@
 import React, { Component } from 'react';
 import { rgba } from 'polished';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+// import './style/style.scss'
 
 import Icon from '../Icon';
 import Link from '../Link';
 
-const Container = styled('section')``;
+// =--=-=-=-=-=style==-=--=-=-=-==-=-
+
+const Container = styled('section')`
+  border: 2px solid black;
+`;
 const Header = styled('header')``;
+const Div = styled('div')`
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+`;
+const Hr = styled('hr')`
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.75),
+    rgba(0, 0, 0, 0)
+  );
+`;
+const Article = styled('article')`
+  border: 2px solide red;
+`;
+const Img = styled('img')`
+  width: 20vw;
+  border-radius: 3px;
+  transition: transform 0.2s;
+  color: black;
+  box-shadow: 5px 5px 5px;
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 3px 3px 1px;
+  }
+`;
+
+const morph = keyframes`
+ 0% {border-radius: 5px;}
+  50% {border-radius: 50%;}
+  100% {border-radius: 5px;}
+`;
+
+const spin = keyframes`
+  from {transform: rotate(0deg);}
+  to{transform: rotate(360deg);}
+`;
+
+const Ball = styled('div')`
+position: relative;
+top: 15px;
+right: 25px;
+width: 15px;
+height: 15px;
+border-radius:50%;
+background-color: #ea074b;
+background-image: linear-gradient(0deg,#ea074b 0%, #2af598 100%);
+animation: ${morph} 1s linear infinite, ${spin} 1s ease-in-out infinite;
+
+}
+
+`;
+// const newDiv = styled('div')`
+// display:flex;
+
+// `;
+
+// -==--=-=-=style ends -=-=-=-=-=-=
 
 class ContactDetails extends Component {
   static defaultProps = {
     className: '',
+    contacts: '',
   };
 
   static propTypes = {
     className: PropTypes.string,
+    contacts: PropTypes.string,
   };
 
   state = {
-    data: { name: '[name]' },
+    contact: { name: {}, picture: {} },
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    // console.log('receive')
+    // console.log('page we are on', this.props.match.params.id)
+    // console.log('all contacts', this.props.contacts)
+    const { contacts } = this.props;
+    const { props } = this;
+    const contact = { contacts }.contacts.find(
+      specificContact => specificContact.id === { props }.props.match.params.id,
+    );
+    // console.log('conctact', contact)
+    if (contact) {
+      this.setState({ contact });
+    }
+    //  console.log('page we are on',this.props.match.params.id)
+    //  console.log('all contacts', this.props.contacts)
+  }
+
+  componentWillReceiveProps() {
+    // console.log('receive')
+    // console.log('page we are on', this.props.match.params.id)
+    // console.log('all contacts', this.props.contacts)
+    const { contacts } = this.props;
+    // const {match} = this.props.match;
+    // console.log("1231412412312312312",contacts)
+    const { props } = this;
+    const { id } = { props }.props.match.params;
+    const contact = contacts.find(specificContact => specificContact.id === id);
+    // console.log('conctact', contact)
+    if (contact) {
+      this.setState({ contact });
+    }
+  }
+
+  componentWillUpdate() {
+    // console.log('update')
+  }
 
   render() {
     const { className } = this.props;
-    const { data } = this.state;
+    // const { data } = this.state;
+    const { contact } = this.state;
 
     return (
-      <article className={className}>
+      <Article className={className}>
         <Header>
           <Link to="/">
             <Icon>arrow_back_ios</Icon>
           </Link>
-          {data.name}
         </Header>
-        <Container>You need to implement the view here</Container>
-      </article>
+        <Div>
+          <Div>
+            <Img src={contact.picture.large} alt={contact.name.first} />
+          </Div>
+          <Div>
+            <h1>
+              <Ball />
+              Name:
+              {contact.name.first}
+              {contact.name.last}
+            </h1>
+            <Hr />
+            <h1>
+Gender :
+              {contact.gender}
+            </h1>
+            <br />
+            <h1>
+              <Icon>email</Icon>
+              Email :
+              {contact.email}
+            </h1>
+            <br />
+            <h1>
+              <Icon>phone</Icon>
+              Cell:
+              {contact.cell}
+            </h1>
+          </Div>
+          <br />
+        </Div>
+      </Article>
     );
   }
 }
 
+// background: ${props => props.theme['--color-light']};
 export default styled(ContactDetails)`
-  background: ${props => props.theme['--color-light']};
+  background: lightgrey;
   height: calc(100% - 2.5rem);
   position: fixed;
   top: 2.5rem;
   width: 100%;
+  color: blue;
+  text-shadow: 1px 1px black;
   //
   ${Header} {
     ${props => props.theme['--font-extra-large']};
