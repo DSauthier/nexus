@@ -3,7 +3,19 @@ import { rgba } from 'polished';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const Empty = ({ className }) => <div className={className} />;
+const Div = styled('div')`
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  text-transform: capitalize;
+`;
+
+const Empty = ({ className }) => (
+  <Div className={className}>
+    <h1>Search for your contact and Double Click it</h1>
+  </Div>
+);
 
 Empty.defaultProps = {
   className: '',
@@ -15,7 +27,7 @@ Empty.propTypes = {
 
 export default styled(Empty)`
   @media (${props => props.theme['--screen-medium']}) {
-    background: ${props => props.theme['--color-light']};
+    background: #f2f2f2;
     border-left: 1px solid ${props => rgba(props.theme['--color-dark'], 0.1)};
     height: calc(100% - 2.5rem);
     left: 32rem;

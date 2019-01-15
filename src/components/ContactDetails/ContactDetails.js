@@ -7,7 +7,7 @@ import styled, { keyframes } from 'styled-components';
 import Icon from '../Icon';
 import Link from '../Link';
 
-// =--=-=-=-=-=style==-=--=-=-=-==-=-
+// =--=-=-=-=-=style here==-=--=-=-=-==-=-
 
 const Container = styled('section')`
   border: 2px solid black;
@@ -18,23 +18,14 @@ const Div = styled('div')`
   flex-flow: column;
   justify-content: center;
   align-items: center;
+  margin: 2vw 0px;
+  text-transform: capitalize;
 `;
-const Hr = styled('hr')`
-  border: 0;
-  height: 1px;
-  background-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0),
-    rgba(0, 0, 0, 0.75),
-    rgba(0, 0, 0, 0)
-  );
-`;
-const Article = styled('article')`
-  border: 2px solide red;
-`;
+
+const Article = styled('article')``;
 const Img = styled('img')`
   width: 20vw;
-  border-radius: 3px;
+  border-radius: 10px;
   transition: transform 0.2s;
   color: black;
   box-shadow: 5px 5px 5px;
@@ -42,6 +33,7 @@ const Img = styled('img')`
     transform: scale(1.1);
     box-shadow: 3px 3px 1px;
   }
+  border: 1 px solid black;
 `;
 
 const morph = keyframes`
@@ -61,18 +53,16 @@ top: 15px;
 right: 25px;
 width: 15px;
 height: 15px;
-border-radius:50%;
-background-color: #ea074b;
-background-image: linear-gradient(0deg,#ea074b 0%, #2af598 100%);
+background-image: radial-gradient( white, black );
 animation: ${morph} 1s linear infinite, ${spin} 1s ease-in-out infinite;
-
 }
 
 `;
-// const newDiv = styled('div')`
-// display:flex;
 
-// `;
+const H1 = styled('h1')`
+  border-bottom: 0.1rem solid rgba(6, 52, 84, 0.1);
+  width: 100%;
+`;
 
 // -==--=-=-=style ends -=-=-=-=-=-=
 
@@ -91,48 +81,28 @@ class ContactDetails extends Component {
     contact: { name: {}, picture: {} },
   };
 
-  componentDidMount() {
-    // console.log('receive')
-    // console.log('page we are on', this.props.match.params.id)
-    // console.log('all contacts', this.props.contacts)
-    const { contacts } = this.props;
-    const { props } = this;
-    const contact = { contacts }.contacts.find(
-      specificContact => specificContact.id === { props }.props.match.params.id,
-    );
-    // console.log('conctact', contact)
-    if (contact) {
-      this.setState({ contact });
-    }
-    //  console.log('page we are on',this.props.match.params.id)
-    //  console.log('all contacts', this.props.contacts)
-  }
+  //  ComponentWillReceiveProps will pass the props from the list > than will compare the selected contact id and will match it with the contact id from the list >if exists(which will exist since it will only be clickable if exists) return the contact found
 
   componentWillReceiveProps() {
-    // console.log('receive')
-    // console.log('page we are on', this.props.match.params.id)
-    // console.log('all contacts', this.props.contacts)
     const { contacts } = this.props;
-    // const {match} = this.props.match;
-    // console.log("1231412412312312312",contacts)
+
     const { props } = this;
     const { id } = { props }.props.match.params;
     const contact = contacts.find(specificContact => specificContact.id === id);
-    // console.log('conctact', contact)
+
     if (contact) {
       this.setState({ contact });
     }
   }
 
-  componentWillUpdate() {
-    // console.log('update')
-  }
-
+  //  now we render our contact details, accessing it state with this.state and getting the information needed.
   render() {
     const { className } = this.props;
     // const { data } = this.state;
     const { contact } = this.state;
 
+    const fullName = `${contact.name.first} ${contact.name.last}`;
+    // Regular Html goes here
     return (
       <Article className={className}>
         <Header>
@@ -145,29 +115,32 @@ class ContactDetails extends Component {
             <Img src={contact.picture.large} alt={contact.name.first} />
           </Div>
           <Div>
-            <h1>
+            <H1>
               <Ball />
-              Name:
-              {contact.name.first}
-              {contact.name.last}
-            </h1>
-            <Hr />
-            <h1>
-Gender :
-              {contact.gender}
-            </h1>
+              Name :
+              {fullName}
+            </H1>
             <br />
-            <h1>
-              <Icon>email</Icon>
+            <H1>
+              <Ball />
+              Gender :
+              {contact.gender}
+            </H1>
+            <br />
+
+            <H1>
+              <Ball />
+              {/* <Icon><ColoredIcon>email</ColoredIcon></Icon> */}
               Email :
               {contact.email}
-            </h1>
+            </H1>
             <br />
-            <h1>
-              <Icon>phone</Icon>
-              Cell:
+            <H1>
+              <Ball />
+              Cell :
+              {/* <Icon><ColoredIcon>phone</ColoredIcon></Icon> */}
               {contact.cell}
-            </h1>
+            </H1>
           </Div>
           <br />
         </Div>
@@ -178,13 +151,13 @@ Gender :
 
 // background: ${props => props.theme['--color-light']};
 export default styled(ContactDetails)`
-  background: lightgrey;
+  background: #f2f2f2;
   height: calc(100% - 2.5rem);
   position: fixed;
   top: 2.5rem;
   width: 100%;
-  color: blue;
-  text-shadow: 1px 1px black;
+  color: black;
+  text-shadow: 1px 1px white;
   //
   ${Header} {
     ${props => props.theme['--font-extra-large']};
