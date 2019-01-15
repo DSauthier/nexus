@@ -24,7 +24,7 @@ const Div = styled('div')`
 
 const Article = styled('article')``;
 const Img = styled('img')`
-  width: 20vw;
+  width: 100%;
   border-radius: 10px;
   transition: transform 0.2s;
   color: black;
@@ -115,7 +115,7 @@ class ContactDetails extends Component {
             <Img src={contact.picture.large} alt={contact.name.first} />
           </Div>
           <Div>
-            <H1>
+            <H1 className="test">
               <Ball />
               Name :
               {fullName}
